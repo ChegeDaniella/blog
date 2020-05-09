@@ -1,18 +1,18 @@
-<div class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"> Watchlist </a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-            </div>
+{% extends 'base.html'%}
 
-        </div>
+{% block content %}
+<div class="container">
+    <h1> WILD IT OUT BLOG </h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>About</h3>
+            <p>We need different ways of interrating with each other and learning new things and cultures.
+            In out blog you will be able to view the different posts that have been posted and be able to comment on them.
+            We pride ourselves in having the most diverse  posting game from culture to sports.
+            
+            </p>
+
+        </div>    
     </div>
+</div>
+{% endblock %}
