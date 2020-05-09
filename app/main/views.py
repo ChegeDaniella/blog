@@ -5,11 +5,7 @@ from ..models import User,Blog
 from .forms import UpdateProfile,PostForm
 from .. import db
 
-# posts =[
-#     {
-#         'author':'Jane Doe'
-#     }
-# ]
+
 @main.route('/')
 def index():
     posts = Blog.query.all()
