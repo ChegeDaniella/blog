@@ -17,6 +17,9 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(255),nullable =False)
     email = db.Column(db.String(255),unique = True, nullable = False)
     pass_secure = db.Column(db.String(255),nullable = False)
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String)
+    location = db.Column(db.String(255))
     blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
 
     @property
@@ -26,6 +29,9 @@ class User(UserMixin,db.Model):
     @password.setter
     def password(self,password):
         self.pass_secure = generate_password_hash(password)
+
+    def verify_password(self,password):
+        return check_password_hash(self.pass_secure,password)    
 
     def __repr__(self):
         return f'User{self.username}'
