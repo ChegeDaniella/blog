@@ -28,7 +28,7 @@ def login():
 
         flash('Invalid email or password')
 
-        title = "Where to login"
+    title = "Where to login"
     return render_template("auth/login.html", login_form = login_form, title = title)    
 @auth.route('/logout')
 @login_required
