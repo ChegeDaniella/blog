@@ -1,13 +1,22 @@
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin
+from datetime import date
+from . import login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 #user table
-class User(db.Model):
+class User(UserMixin,db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer,primary_key = True)
-    username = db.Column(db.String(255))
-    pass_secure = db.Column(db.String(255))
+    username = db.Column(db.String(255),nullable =False)
+    email = db.Column(db.String(255),unique = True, nullable = False)
+    pass_secure = db.Column(db.String(255),nullable = False)
     blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
 
     @property
@@ -25,9 +34,9 @@ class User(db.Model):
 class Blog(db.Model):
     __tablename__ = 'blogs'
     id = db.Column(db.Integer,primary_key = True)
-    title = db.Column(db.String(255))
-    blog = db.Column(db.String)
-    time_in = db.Column(db.DateTime)
+    title = db.Column(db.String(255),nullable = False))
+    blog = db.Column(db.String(255),nullable = False)
+    time_in = db.Column(db.DateTime, nullable =False)
     users = db.relationship('User',backref = 'blog', lazy="dynamic")
 
     def __repr__(self):
