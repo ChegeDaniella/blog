@@ -6,6 +6,6 @@ from flask_login import login_required
 def index():
     return render_template('index.html')
 
-@main.route(/blog/post, methods = ['GET','POST'])
-@login_required
-def new_post(id):
+# @main.route(/blog/post, methods = ['GET','POST'])
+# @login_required
+# def new_post(id):
