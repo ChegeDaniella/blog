@@ -6,7 +6,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
         {%if user.profile_pic_path %}
-        <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+        <img class="rounded-circle account-img" src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
         {%else%}
         <p> No profile picture </p>
         {% endif %}
@@ -17,7 +17,11 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h3> {{user.username | capitalize }}
-            <h4> {{user.location}}</h4>
+            {% if user.location %}
+                <p> {{ user.location }}</p>
+            {% else %}
+                <p> {{user.username| capitalize}} has not shared their location </p>
+            {% endif %}
         </div>
         <div class="col-md-3"></div>
     </div>

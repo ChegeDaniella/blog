@@ -1,13 +1,19 @@
-from flask import render_template,redirect,abort,url_for
+from flask import render_template,redirect,abort,url_for,flash
 from . import main
-from flask_login import login_required
-from ..models import User
-from .forms import UpdateProfile
+from flask_login import login_required,current_user
+from ..models import User,Blog
+from .forms import UpdateProfile,PostForm
 from .. import db
 
+# posts =[
+#     {
+#         'author':'Jane Doe'
+#     }
+# ]
 @main.route('/')
 def index():
-    return render_template('index.html')
+    posts = Blog.query.all()
+    return render_template('index.html', posts=posts)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -28,11 +34,26 @@ def update_profile(uname):
     form=UpdateProfile()
 
     if form.validate_on_submit():
-        user.bio = form.bio.data
-        user.location = form.location.data
+        current_user.bio = form.bio.data
+        current_user.user.location = form.location.data
 
         db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname = user.username)) 
     return render_template('profile/update.html', form = form)    
+
+@main.route("/post/new",methods = ['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+
+        blog = Blog(title = form.title.data, blog =form.content.data, author=current_user)
+
+        db.session.add(blog)
+        db.session.commit()
+        flash('Your post has been created')
+        return redirect(url_for('main.index'))
+    return render_template('create_post.html',title ="New post" , form = form)
+

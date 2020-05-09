@@ -11,6 +11,11 @@
             We pride ourselves in having the most diverse  posting game from culture to sports.
             
             </p>
+            <div class="col-md-6">
+           {% for post in posts%}
+            {{ post.title }}
+            {% endfor %} 
+            </div>
 
         </div>    
     </div>
