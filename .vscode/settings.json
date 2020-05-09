@@ -1,6 +1,6 @@
 {
-    "python.linting.pylintArgs": [
-        "--load-plugins",
-        "pylint-flask"
-    ]
+    // "python.pythonPath": "/home/daniella/Documents/core/python-pre-workforce/IP'S/Blog/virtual/bin/python3.6",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--load-plugins", "pylint-flask"]
 }
