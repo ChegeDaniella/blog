@@ -3,18 +3,23 @@
 
 {% block content %}
 
-<h1 class="article-title">{{ post.title }}</h1>
-    <p> By{{ post.author.username }} on {{ post.time_in.strftime('%Y-%m-%d')}}</p>
-    {% if post.author == current_user %}
-    <div>
-    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.update_post', post_id=post.id) }}">Update</a>
-    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="article-title">{{ post.title }}</h1>
+      <p> By{{ post.author.username }} on {{ post.time_in.strftime('%Y-%m-%d')}}</p>
+      {% if post.author == current_user %}
+      <div>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.update_post', post_id=post.id) }}">Update</a>
+        <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+      </div>
+      {% endif %}
+      <p>{{ post.blog }} on {{ post.time_in.strftime('%H:%M:%S')}}</p>
     </div>
-    {% endif %}
-    </div>
-    <p>{{ post.blog }} on {{ post.time_in.strftime('%H:%M:%S')}}</p>
 
+<div class="col-md-6">
   <div class="comment">
+  <legend>Comments Form</legend>
     {{wtf.quick_form(form)}}
   </div>  
     <h4 >View all post comments</h4>
@@ -24,12 +29,9 @@
         <li>{{comment.comment}} </li>                     
     </ul>
       {% endfor%}
+</div>   
+</div>   
       
-
-
-        
-
-
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -49,6 +51,7 @@
       </div>
     </div>
   </div>
+</div>  
 {% endblock  %}
                 
 

@@ -15,13 +15,14 @@ def index():
     
     return render_template('index.html', posts=posts)
 
-@main.route('/user/<uname>')
+@main.route('/user/<string:uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-
+    image_file = url_for('static',file='photos/' + current_user.image_file)
+    
     if user is None:
         abort(404)
-    return render_template('profile/profile.html', user = user)
+    return render_template('profile/profile.html', user = user,image_file = image_file)
 
 @main.route('/user/<uname>/update', methods = ['GET','POST'])
 @login_required   
@@ -115,17 +116,17 @@ def comment(post_id):
         comments= Comment(comment=form.comment.data,blog_id=post.id,user_id=current_user.id)
         db.session.add(comments)
         db.session.commit()
-        return redirect(url_for('main.index', post_id=post.id))
+        return redirect(url_for('main.comment', post_id=post.id))
 
     return render_template('post.html' ,form=form,post=post,comments=comment_search)
 
-@main.route("/post/<int:post_id>/<int:comment_id>/delete",methods = ['POST'])
-@login_required
-def delete_comment(comment_id):   
-    post = Comment.query.get_or_404(comment_id)  
-    if post.author != current_user:
-        abort(403)  
-    db.session.delete(post) 
-    db.session.commit()
-    flash('You have made updates to this post','success')
-    return redirect(url_for('main.comment'))
+# @main.route("/post/<int:post_id>/<int:comment_id>/delete",methods = ['POST'])
+# @login_required
+# def delete_comment(comment_id):   
+#     post = Comment.query.get_or_404(comment_id)  
+#     if post.author != current_user:
+#         abort(403)  
+#     db.session.delete(post) 
+#     db.session.commit()
+#     flash('You have made updates to this post','success')
+#     return redirect(url_for('main.comment'))

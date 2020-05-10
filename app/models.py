@@ -54,10 +54,10 @@ class Blog(UserMixin,db.Model):
 class Comment(UserMixin,db.Model):
     __tablename__='comments'
     id=db.Column(db.Integer,primary_key=True)
-    comment=db.Column(db.String,nullable = False)
+    comment=db.Column(db.String())
     posted=db.Column(db.DateTime,default=datetime.utcnow)
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"),nullable = False)
-    blog_id=db.Column(db.Integer,db.ForeignKey('blogs.id'),nullable = False) 
+    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    blog_id=db.Column(db.Integer,db.ForeignKey('blogs.id')) 
 
     def __repr__(self):
         return f"Comment ('{self.comment}','{self.user}')"

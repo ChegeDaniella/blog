@@ -5,8 +5,10 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-        {%if user.profile_pic_path %}
-        <img class="rounded-circle account-img" src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+        <img class="rounded-circle account-img" src="default.png">
+        {{ image_file }}
+        {%if user.image_file %}
+        {% comment %} <img class="rounded-circle account-img" src="{{url_for('static',filename=user.image_file)}}" alt="" class="img-thumbnail"> {% endcomment %}
         {%else%}
         <p> No profile picture </p>
         {% endif %}
