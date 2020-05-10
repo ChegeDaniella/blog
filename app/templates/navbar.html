@@ -13,6 +13,7 @@
    
          <ul class="nav navbar-nav navbar-right">
          <li><a href="/">Home</a></li>
+         <li><a href="/random">Random Quotes</a></li>
                   {% if current_user.is_authenticated %}
                   <li><a href="{{url_for('main.new_post')}}">New post </a></li>
                   <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
