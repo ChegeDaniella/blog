@@ -13,9 +13,9 @@
             </p>
             <div class="col-md-6">
            {% for post in posts%}
-                <h1>{{ post.title }}</h1>
-                <p> By{{ post.author.username }} on {{ post.time_in}}</p>
-                <p>{{ post.content }} </p>
+                <h1><a class="article-title" href='{{ url_for('main.post', post_id=post.id) }}'>{{ post.title }}</a></h1>
+                <p> By{{ post.author.username }} on {{ post.time_in.strftime('%Y-%m-%d')}}</p>
+                <p>{{ post.blog }} on {{ post.time_in.strftime('%H:%M:%S')}}</p>
 
             {% endfor %} 
             </div>

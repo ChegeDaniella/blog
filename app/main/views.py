@@ -31,7 +31,7 @@ def update_profile(uname):
 
     if form.validate_on_submit():
         current_user.bio = form.bio.data
-        current_user.user.location = form.location.data
+        current_user.location = form.location.data
 
         db.session.add(user)
         db.session.commit()
@@ -53,3 +53,8 @@ def new_post():
         return redirect(url_for('main.index'))
     return render_template('create_post.html',title ="New post" , form = form)
 
+@main.route("/post/<int:post_id>")
+def post(post_id):
+    post = Blog.query.get_or_404(post_id)
+    # post_id = request.args.get('id')
+    return render_template('post.html', title=post.title, post=post)

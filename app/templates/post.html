@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1 class="article-title">{{ post.title }}</h1>
+    <p> By{{ post.author.username }} on {{ post.time_in.strftime('%Y-%m-%d')}}</p>
+    <p>{{ post.blog }} on {{ post.time_in.strftime('%H:%M:%S')}}</p>
+
+{% endblock  %}
+                
+
+            
