@@ -4,6 +4,8 @@ from flask_login import login_required,current_user
 from ..models import User,Blog
 from .forms import UpdateProfile,PostForm
 from .. import db
+import urllib.request as request
+import json
 
 
 @main.route('/')
@@ -93,3 +95,16 @@ def delete_post(post_id):
     flash('You have made updates to this post','success')
     return redirect(url_for('main.index'))
 
+@main.route("/random")
+def random_quotes():
+    # quote_data = request.json.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+    # maker = quote_data.get('author')
+    # quote = quote_data.get('quote')
+        with request.urlopen('http://quotes.stormconsultancy.co.uk/random.json') as response:
+            if response.getcode() == 200:
+                source = response.read()
+                data = json.loads(source)
+            else:
+                print('An error occurred while attempting to retrieve data from the API.')
+
+        return render_template('random.html',data =data)
