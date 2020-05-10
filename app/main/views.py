@@ -12,6 +12,7 @@ from app.request import random_quotes
 @main.route('/')
 def index():
     posts = Blog.query.all()
+    
     return render_template('index.html', posts=posts)
 
 @main.route('/user/<uname>')
@@ -61,7 +62,7 @@ def post(post_id):
     post = Blog.query.get_or_404(post_id)
     form = CommentForm()  
     # post_id = request.args.get('id')
-    return render_template('post.html', title=post.title, post=post,form =form)
+    return render_template('post.html', title=post.title, post=post,form = form)
 
 @main.route("/post/<int:post_id>/update",methods = ['GET','POST'])
 @login_required
@@ -100,26 +101,31 @@ def delete_post(post_id):
 @main.route("/random")
 def quotes():
     data = random_quotes()
-#     with request.urlopen('http://quotes.stormconsultancy.co.uk/random.json') as response:
-#         if response.getcode() == 200:
-#             source = response.read()
-#             data = json.loads(source)
-#         else:
-#             print('An error occurred while attempting to retrieve data from the API.')
 
     return render_template('random.html',data =data)
 
-@main.route('/<int:post_id>/comment', methods=['GET','POST'])  
+@main.route('/post/<int:post_id>/comment', methods = ['GET','POST'])  
 @login_required
 def comment(post_id):
     form = CommentForm()  
     post = Blog.query.filter_by(id=post_id).first()
-    comment_search = Comment.query.filter_by(post_id=post.id).all()
+    comment_search = Comment.query.filter_by(blog_id=post.id).all()
 
     if form.validate_on_submit():
-        comments= Comment(comment=form.comment.data,post_id=blog.id,user_id=current_user.id)
+        comments= Comment(comment=form.comment.data,blog_id=post.id,user_id=current_user.id)
         db.session.add(comments)
         db.session.commit()
-        return redirect(url_for('main.comment', post_id=Post_id))
+        return redirect(url_for('main.index', post_id=post.id))
 
     return render_template('post.html' ,form=form,post=post,comments=comment_search)
+
+@main.route("/post/<int:post_id>/<int:comment_id>/delete",methods = ['POST'])
+@login_required
+def delete_comment(comment_id):   
+    post = Comment.query.get_or_404(comment_id)  
+    if post.author != current_user:
+        abort(403)  
+    db.session.delete(post) 
+    db.session.commit()
+    flash('You have made updates to this post','success')
+    return redirect(url_for('main.comment'))

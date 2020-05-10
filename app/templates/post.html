@@ -14,11 +14,20 @@
     </div>
     <p>{{ post.blog }} on {{ post.time_in.strftime('%H:%M:%S')}}</p>
 
-    <div class="collapse" id="collapseExample">
-      <div class="card card-body form-inline">
-        {{wtf.quick_form(form)}}
-      </div>
-    </div>  
+  <div class="comment">
+    {{wtf.quick_form(form)}}
+  </div>  
+    <h4 >View all post comments</h4>
+    <ul>
+      {% for comment in comments%}
+        <li>{{comment.user.username}}</li>
+        <li>{{comment.comment}} </li>                     
+    </ul>
+      {% endfor%}
+      
+
+
+        
 
 
   <!-- Modal -->
