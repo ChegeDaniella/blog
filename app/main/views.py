@@ -1,11 +1,12 @@
 from flask import render_template,redirect,abort,url_for,flash,request
 from . import main
 from flask_login import login_required,current_user
-from ..models import User,Blog
-from .forms import UpdateProfile,PostForm
+from ..models import User,Blog,Comment
+from .forms import UpdateProfile,PostForm,CommentForm
 from .. import db
-import urllib.request as request
+# import urllib.request as request
 import json
+from app.request import random_quotes
 
 
 @main.route('/')
@@ -58,8 +59,9 @@ def new_post():
 @main.route("/post/<int:post_id>")
 def post(post_id):
     post = Blog.query.get_or_404(post_id)
+    form = CommentForm()  
     # post_id = request.args.get('id')
-    return render_template('post.html', title=post.title, post=post)
+    return render_template('post.html', title=post.title, post=post,form =form)
 
 @main.route("/post/<int:post_id>/update",methods = ['GET','POST'])
 @login_required
@@ -96,15 +98,28 @@ def delete_post(post_id):
     return redirect(url_for('main.index'))
 
 @main.route("/random")
-def random_quotes():
-    # quote_data = request.json.get('http://quotes.stormconsultancy.co.uk/random.json').json()
-    # maker = quote_data.get('author')
-    # quote = quote_data.get('quote')
-        with request.urlopen('http://quotes.stormconsultancy.co.uk/random.json') as response:
-            if response.getcode() == 200:
-                source = response.read()
-                data = json.loads(source)
-            else:
-                print('An error occurred while attempting to retrieve data from the API.')
+def quotes():
+    data = random_quotes()
+#     with request.urlopen('http://quotes.stormconsultancy.co.uk/random.json') as response:
+#         if response.getcode() == 200:
+#             source = response.read()
+#             data = json.loads(source)
+#         else:
+#             print('An error occurred while attempting to retrieve data from the API.')
 
-        return render_template('random.html',data =data)
+    return render_template('random.html',data =data)
+
+@main.route('/<int:post_id>/comment', methods=['GET','POST'])  
+@login_required
+def comment(post_id):
+    form = CommentForm()  
+    post = Blog.query.filter_by(id=post_id).first()
+    comment_search = Comment.query.filter_by(post_id=post.id).all()
+
+    if form.validate_on_submit():
+        comments= Comment(comment=form.comment.data,post_id=blog.id,user_id=current_user.id)
+        db.session.add(comments)
+        db.session.commit()
+        return redirect(url_for('main.comment', post_id=Post_id))
+
+    return render_template('post.html' ,form=form,post=post,comments=comment_search)
