@@ -1,33 +1,20 @@
-
-
-
-<body>
-<div class="sidenav">
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#clients">Clients</a>
-  <a href="#contact">Contact</a>
-</div>
-</body>
-
-    
-    <div class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"> Watchlist </a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    
-            </div>
-                <ul class="nav navbar-nav navbar-right">
+<style>
+.navbar {
+    color: #FFFFFF;
+    background-color: #007bba;    
+}
+.navbar.navbar-nav.navbar-right li a {
+    color: black;
+}
+</style>
+    <!-- Just an image logo -->
+  <div class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-dark primary-color">
+     <a href="/"> <img src="https://www.bloggingpro.com/wp-content/uploads/2012/06/your-blog-logo.png" height="100" alt="mdb logo">
+       </a>
+   
+         <ul class="nav navbar-nav navbar-right">
+         <li><a href="/">Home</a></li>
                   {% if current_user.is_authenticated %}
                   <li><a href="{{url_for('main.new_post')}}">New post </a></li>
                   <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
@@ -36,7 +23,8 @@
                   <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
                   {%endif%}
                 </ul>
-        </div>
-    </div>
+    </nav>
+  </div>
+
 
 
