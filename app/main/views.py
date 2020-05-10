@@ -1,4 +1,4 @@
-from flask import render_template,redirect,abort,url_for,flash
+from flask import render_template,redirect,abort,url_for,flash,request
 from . import main
 from flask_login import login_required,current_user
 from ..models import User,Blog
@@ -58,3 +58,38 @@ def post(post_id):
     post = Blog.query.get_or_404(post_id)
     # post_id = request.args.get('id')
     return render_template('post.html', title=post.title, post=post)
+
+@main.route("/post/<int:post_id>/update",methods = ['GET','POST'])
+@login_required
+def update_post(post_id):  
+    post = Blog.query.get_or_404(post_id)  
+    if post.author != current_user:
+        abort(403)
+    form =PostForm() 
+    
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.blog = form.content.data
+
+        db.session.commit()
+        flash('You have made updates to this post','success')
+        return redirect(url_for('main.post', post_id=post.id))
+
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.blog
+
+    return render_template('create_post.html',title ="Update post" , form = form)
+
+@main.route("/post/<int:post_id>/delete",methods = ['POST'])
+@login_required
+def delete_post(post_id):   
+    post = Blog.query.get_or_404(post_id)  
+    if post.author != current_user:
+        abort(403)  
+    db.session.delete(post) 
+    db.session.commit()
+    flash('You have made updates to this post','success')
+    return redirect(url_for('main.index'))
+
