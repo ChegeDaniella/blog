@@ -1,0 +1,15 @@
+#zoom {
+    padding: 50px;
+    transition: transform .2s;
+    width: 600px;
+    height: 200px;
+    margin: 0 auto;
+    border: 2px solid;
+    background-color: #7ccdf4;
+  }
+  
+#zoom:hover {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5); 
+  }
