@@ -18,7 +18,7 @@ def index():
 @main.route('/user/<string:uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    image_file = url_for('static',file='photos/' + current_user.image_file)
+    image_file = url_for('static',filename='photos/' + current_user.image_file)
     
     if user is None:
         abort(404)
