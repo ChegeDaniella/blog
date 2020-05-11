@@ -18,11 +18,11 @@ def index():
 @main.route('/user/<string:uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    image_file = url_for('static',filename='photos/' + current_user.image_file)
+
     
     if user is None:
         abort(404)
-    return render_template('profile/profile.html', user = user,image_file = image_file)
+    return render_template('profile/profile.html', user = user)
 
 # @main.route("/post/<int:post_id>")
 # def post(post_id):
@@ -66,7 +66,7 @@ def new_post():
     return render_template('create_post.html',title ="New post" , form = form)
 
 @main.route("/post/<int:post_id>" ,methods=['GET','POST'])
-
+@login_required
 def post(post_id):
     post = Blog.query.get_or_404(post_id)
     form = CommentForm()  
