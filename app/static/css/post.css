@@ -1,0 +1,9 @@
+body {
+    font-family: 'Rakkas', cursive;
+}
+legend { 
+    display: block;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: none;
+}
