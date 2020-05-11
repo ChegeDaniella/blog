@@ -2,6 +2,16 @@ body {
     font-family: 'Rakkas', cursive;
     
 }
+.h {
+    text-align: center;
+    font-size: 30px;
+    
+}
+#paragraph {
+    background-image: url('https://www.a-c-d.net/wp-content/uploads/2019/03/agif3opt.gif');
+    height: 500px;
+    color: aliceblue;
+}
 .heade {
     font-size: 45px;
     text-align: center;

@@ -66,6 +66,7 @@ def new_post():
     return render_template('create_post.html',title ="New post" , form = form)
 
 @main.route("/post/<int:post_id>" ,methods=['GET','POST'])
+
 def post(post_id):
     post = Blog.query.get_or_404(post_id)
     form = CommentForm()  
@@ -134,6 +135,15 @@ def comment(post_id):
         return redirect(url_for('main.comment', post_id=post.id,comment_id = comment.id))
 
     return render_template('post.html' ,form=form,post=post,comments=comment_search)
+
+# @main.route('/comment<int:comment_id>/delete',methods =["POST","GET"])
+# # @login_required
+# def delete_comment(comment_id):
+#     comment = Comment.query.get(comment_id)
+#     db.session.delete(comment)
+#     db.session.commit()
+#     flash('Comment deleted','success')
+#     return redirect(url_for('main'))    
 
 # @main.route("/post/<int:post_id>/<int:comment_id>/delete",methods = ['POST'])
 # @login_required

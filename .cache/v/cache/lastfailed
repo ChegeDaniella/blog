@@ -1,3 +1,5 @@
 {
+  "app/tests/test_blog.py": true, 
+  "app/tests/test_comment.py": true, 
   "app/tests/test_user.py": true
 }
