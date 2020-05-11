@@ -1,3 +1,7 @@
 body {
     font-family: 'Rakkas', cursive;
 }
+.profiles {
+    font-size: 20px;
+    border: solid 2px;
+}

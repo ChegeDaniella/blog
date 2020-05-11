@@ -24,6 +24,13 @@ def profile(uname):
         abort(404)
     return render_template('profile/profile.html', user = user,image_file = image_file)
 
+# @main.route("/post/<int:post_id>")
+# def post(post_id):
+#     post = Blog.query.get_or_404(post_id)
+#     form = CommentForm()  
+#     # post_id = request.args.get('id')
+#     return render_template('post.html', title=post.title, post=post,form = form)
+
 @main.route('/user/<uname>/update', methods = ['GET','POST'])
 @login_required   
 def update_profile(uname):
@@ -58,11 +65,17 @@ def new_post():
         return redirect(url_for('main.index'))
     return render_template('create_post.html',title ="New post" , form = form)
 
-@main.route("/post/<int:post_id>")
+@main.route("/post/<int:post_id>" ,methods=['GET','POST'])
 def post(post_id):
     post = Blog.query.get_or_404(post_id)
     form = CommentForm()  
     # post_id = request.args.get('id')
+    # import pdb; pdb.set_trace()
+    if form.validate_on_submit():
+        comments= Comment(comment=form.comment.data,blog_id=post.id,user_id=current_user.id)
+        db.session.add(comments)
+        db.session.commit()
+        return redirect(url_for('main.comment', post_id=post.id))
     return render_template('post.html', title=post.title, post=post,form = form)
 
 @main.route("/post/<int:post_id>/update",methods = ['GET','POST'])
@@ -108,25 +121,28 @@ def quotes():
 @main.route('/post/<int:post_id>/comment', methods = ['GET','POST'])  
 @login_required
 def comment(post_id):
+    
     form = CommentForm()  
     post = Blog.query.filter_by(id=post_id).first()
     comment_search = Comment.query.filter_by(blog_id=post.id).all()
+     
 
     if form.validate_on_submit():
         comments= Comment(comment=form.comment.data,blog_id=post.id,user_id=current_user.id)
         db.session.add(comments)
         db.session.commit()
-        return redirect(url_for('main.comment', post_id=post.id))
+        return redirect(url_for('main.comment', post_id=post.id,comment_id = comment.id))
 
     return render_template('post.html' ,form=form,post=post,comments=comment_search)
 
 # @main.route("/post/<int:post_id>/<int:comment_id>/delete",methods = ['POST'])
 # @login_required
-# def delete_comment(comment_id):   
-#     post = Comment.query.get_or_404(comment_id)  
+# def delete_comment(comment_id): 
+#     post = Blog.query.get_or_404(post_id)    
+#     comment = Comment.query.get_or_404(comment_id)  
 #     if post.author != current_user:
 #         abort(403)  
-#     db.session.delete(post) 
+#     db.session.delete(comment) 
 #     db.session.commit()
 #     flash('You have made updates to this post','success')
 #     return redirect(url_for('main.comment'))
