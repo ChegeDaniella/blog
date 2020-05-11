@@ -1,19 +1,45 @@
 {% extends 'base.html' %}
 
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/post.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet"> 
+{% endblock %} 
+
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-3"></div>
+        
         <div class="col-md-6">
-        <img class="rounded-circle account-img" src="default.png">
+        <img src="https://www.indiaalliance.org/uploads/fellowsprofile/default/default.png">
+        </div>
+        <div class="profile">
+            <div class="col-md-3">
+            <p> Bio: </p>
+         {% if user.bio %}
+                <p> {{ user.bio }}</p>
+            {% else %}
+                <p> {{user.username| capitalize}} has no bio </p>
+            {% endif %}
+            <p> Location: </p>
+            <p> {{ user.location }}</p>
+            
+            <p> Email address: </p>
+            <p> {{ user.email }}</p>
+        
+        </div>
+        </div>
+       <!-- <div class="col-md-6">
+        <img src="/static/images/default.png" alt="Vader" style="width:100%">
+        <img class="rounded-circle account-img" src="">
         {{ image_file }}
         {%if user.image_file %}
-        {% comment %} <img class="rounded-circle account-img" src="{{url_for('static',filename=user.image_file)}}" alt="" class="img-thumbnail"> {% endcomment %}
+        <img class="rounded-circle account-img" src="{{url_for('static',filename=user.image_file)}}" alt="" class="img-thumbnail">
         {%else%}
         <p> No profile picture </p>
         {% endif %}
-        </div>
-        <div class="md-col-3"></div>
+        </div>-->
+      <!--  <div class="md-col-3"></div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
@@ -25,8 +51,8 @@
                 <p> {{user.username| capitalize}} has not shared their location </p>
             {% endif %}
         </div>
-        <div class="col-md-3"></div>
-    </div>
+    
+   <!-- </div>
     <div class="row">
         <div class="col-md-6">
             {% if user.bio %}
@@ -43,7 +69,7 @@
                 <p> {{user.username| capitalize}} has no email </p>
             {% endif %}
         </div>
-    </div>  
+    </div>  -->
     <div class="row">
         <div class="col-md-4">
 
